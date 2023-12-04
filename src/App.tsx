@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [charArray, setCharArray] = useState<string[]>([]);
+  
+  const exampleWord: string[] = Array.from('This is the most beautiful sentence ever written.');
+
+  const getStyledWord = () => {
+      return exampleWord.map((char, index) => {
+      const isCorrect = charArray[index] === char;
+      let style;
+      if (charArray[index] != undefined)
+      {
+        style = {
+          color: isCorrect ? 'green' : 'red',
+        };
+      }
+      
+      return <span key={index} style={style}>{char}</span>;
+    });
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='container'>
+        <div className='exampleWord'>{getStyledWord()}</div>
+        <input
+          className='inputField'
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setCharArray(Array.from(e.target.value));
+          }}
+        />     
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+
+export default App;
